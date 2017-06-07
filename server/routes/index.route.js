@@ -3,6 +3,10 @@ import userRoutes from './user.route';
 import slotRoutes from './slot.route';
 import levelRoutes from './level.route';
 import rowRoutes from './row.route';
+import addressRoutes from './address.route';
+import itemRoutes from './item.route';
+import palletRoutes from './pallet.route';
+
 import authRoutes from './auth.route';
 
 const router = express.Router(); // eslint-disable-line new-cap
@@ -23,6 +27,15 @@ router.use('/levels', levelRoutes);
 
 // mount user routes at /rows
 router.use('/rows', rowRoutes);
+
+// mount user routes at /addresses
+router.use('/addresses', addressRoutes);
+
+// mount user routes at /items
+router.use('/items', itemRoutes);
+
+// mount user routes at /items
+router.use('/pallets', palletRoutes);
 
 // mount auth routes at /auth
 router.use('/auth', authRoutes);

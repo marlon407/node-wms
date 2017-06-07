@@ -20,7 +20,7 @@ export default {
     }
   },
 
-  // POST /api/slots
+  // POST /api/slots-------
   createSlot: {
     body: {
       number: Joi.number().required(),
@@ -39,7 +39,7 @@ export default {
     }
   },
 
-  // POST /api/levels
+  // POST /api/levels-----------
   createLevel: {
     body: {
       number: Joi.number().required(),
@@ -58,7 +58,7 @@ export default {
     }
   },
 
-  // POST /api/rows
+  // POST /api/rows-------------
   createRow: {
     body: {
       number: Joi.number().required(),
@@ -77,7 +77,72 @@ export default {
     }
   },
 
-  // POST /api/auth/login
+  // POST /api/addresses----------
+  createAddress: {
+    body: {
+      row: Joi.string().required(),
+      level: Joi.string().required(),
+      slot: Joi.string().required()
+    }
+  },
+
+  // UPDATE /api/addresses/:addressId
+  updateAddress: {
+    body: {
+      row: Joi.string().required(),
+      level: Joi.string().required(),
+      slot: Joi.string().required()
+    },
+    params: {
+      addressId: Joi.string().hex().required()
+    }
+  },
+
+  // POST /api/items----------
+  createItem: {
+    body: {
+      description: Joi.string().required(),
+      value: Joi.number().required(),
+      address: Joi.string().required()
+    }
+  },
+
+  // UPDATE /api/items/:itemId
+  updateItem: {
+    body: {
+      description: Joi.string().required(),
+      value: Joi.number().required(),
+      address: Joi.string().required()
+    },
+    params: {
+      itemId: Joi.string().hex().required()
+    }
+  },
+
+  // POST /api/pallets----------
+  createPallet: {
+    body: {
+      heigth: Joi.number().required(),
+      width: Joi.number().required(),
+      type: Joi.string().required(),
+      item: Joi.string().required(),
+    }
+  },
+
+  // UPDATE /api/pallets/:palletId
+  updatePallet: {
+    body: {
+      heigth: Joi.number().required(),
+      width: Joi.number().required(),
+      type: Joi.string().required(),
+      item: Joi.string().required(),
+    },
+    params: {
+      palletId: Joi.string().hex().required()
+    }
+  },
+
+  // POST /api/auth/login-----------
   login: {
     body: {
       username: Joi.string().required(),
