@@ -7,17 +7,13 @@ import APIError from '../helpers/APIError';
  * Item Schema
  */
 const ItemSchema = new mongoose.Schema({
+  id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
   description: {
     type: String,
     required: true
   },
   value: {
-    type: Number,
-    required: true,
-  },
-  _address:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Address'
+    type: String,
   }
 });
 
@@ -38,7 +34,6 @@ ItemSchema.statics = {
    */
   get(id) {
     return this.findById(id)
-      .populate('_address')
       .exec()
       .then((item) => {
         if (item) {
@@ -57,7 +52,6 @@ ItemSchema.statics = {
    */
   list({ skip = 0, limit = 50 } = {}) {
     return this.find()
-      .populate('_address')
       .sort({ createdAt: -1 })
       .skip(+skip)
       .limit(+limit)

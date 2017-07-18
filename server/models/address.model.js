@@ -7,18 +7,11 @@ import APIError from '../helpers/APIError';
  * Address Schema
  */
 const AddressSchema = new mongoose.Schema({
-  _row: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Row'
-  },
-  _slot: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Slot'
-  },
-  _level: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Level'
-  }
+  id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
+  row: { type: mongoose.Schema.Types.ObjectId, ref: 'Row' },
+  level: { type: mongoose.Schema.Types.ObjectId, ref: 'Level' },
+  slot: { type: mongoose.Schema.Types.ObjectId, ref: 'Slot' },
+  type: String
 });
 
 /**
@@ -38,7 +31,7 @@ AddressSchema.statics = {
    */
   get(id) {
     return this.findById(id)
-      .populate('_row _slot _level')
+      .populate('row slot level')
       .exec()
       .then((address) => {
         if (address) {
@@ -57,7 +50,7 @@ AddressSchema.statics = {
    */
   list({ skip = 0, limit = 50 } = {}) {
     return this.find()
-      .populate('_row _slot _level')
+      .populate('row slot level')
       .sort({ createdAt: -1 })
       .skip(+skip)
       .limit(+limit)

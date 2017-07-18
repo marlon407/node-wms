@@ -7,6 +7,8 @@ import APIError from '../helpers/APIError';
  * Pallet Schema
  */
 const PalletSchema = new mongoose.Schema({
+  id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
+  item: { type: mongoose.Schema.Types.ObjectId, ref: 'Item' },
   heigth: {
     type: Number,
     required: true
@@ -15,14 +17,14 @@ const PalletSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  quantity: {
+    type: Number,
+    required: true,
+  },
   type: {
     type: String,
     required: true,
   },
-  _item:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Item'
-  }
 });
 
 /**
@@ -42,7 +44,7 @@ PalletSchema.statics = {
    */
   get(id) {
     return this.findById(id)
-      .populate('_item')
+      .populate('item')
       .exec()
       .then((pallet) => {
         if (pallet) {
@@ -61,7 +63,7 @@ PalletSchema.statics = {
    */
   list({ skip = 0, limit = 50 } = {}) {
     return this.find()
-      .populate('_item')
+      .populate('item')
       .sort({ createdAt: -1 })
       .skip(+skip)
       .limit(+limit)

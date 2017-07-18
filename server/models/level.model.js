@@ -7,6 +7,7 @@ import APIError from '../helpers/APIError';
  * Level Schema
  */
 const LevelSchema = new mongoose.Schema({
+  id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
   number: {
     type: Number,
     required: true

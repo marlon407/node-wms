@@ -25,7 +25,7 @@ function get(req, res) {
  * @property {number} req.body.heigth
  * @property {string} req.body.width
  * @property {string} req.body.type
- * @property {string} req.body.item 
+ * @property {string} req.body.item
  * @returns {Pallet}
  */
 function create(req, res, next) {
@@ -46,7 +46,7 @@ function create(req, res, next) {
  * @property {number} req.body.heigth
  * @property {string} req.body.width
  * @property {string} req.body.type
- * @property {string} req.body.item 
+ * @property {string} req.body.item
  * @returns {Pallet}
  */
 function update(req, res, next) {

@@ -49,7 +49,6 @@ function update(req, res, next) {
   address._slot = req.body.slot;
   address._row = req.body.depth;
   address._level = req.body.level;
-  
 
   address.save()
     .then(savedAddress => res.json(savedAddress))
