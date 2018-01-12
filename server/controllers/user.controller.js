@@ -9,7 +9,7 @@ function load(req, res, next, id) {
       req.user = user; // eslint-disable-line no-param-reassign
       return next();
     })
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -34,7 +34,7 @@ function create(req, res, next) {
 
   user.save()
     .then(savedUser => res.json(savedUser))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -50,7 +50,7 @@ function update(req, res, next) {
 
   user.save()
     .then(savedUser => res.json(savedUser))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -63,7 +63,7 @@ function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
   User.list({ limit, skip })
     .then(users => res.json(users))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -74,7 +74,7 @@ function remove(req, res, next) {
   const user = req.user;
   user.remove()
     .then(deletedUser => res.json(deletedUser))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 export default { load, get, create, update, list, remove };

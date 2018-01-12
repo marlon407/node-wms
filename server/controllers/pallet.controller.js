@@ -9,15 +9,16 @@ function load(req, res, next, id) {
       req.pallet = pallet; // eslint-disable-line no-param-reassign
       return next();
     })
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
  * Get pallet
  * @returns {Pallet}
  */
-function get(req, res) {
-  return res.json(req.pallet);
+function get(req, res, next) {
+  res.json(req.pallet);
+  next();
 }
 
 /**
@@ -33,12 +34,14 @@ function create(req, res, next) {
     heigth: req.body.heigth,
     width: req.body.width,
     type: req.body.type,
-    _item: req.body.item,
+    quantity: req.body.quantity,
+    item: req.body.item,
+    address: req.body.address
   });
 
   pallet.save()
     .then(savedPallet => res.json(savedPallet))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -54,11 +57,11 @@ function update(req, res, next) {
   pallet.heigth = req.body.heigth;
   pallet.width = req.body.width;
   pallet.type = req.body.type;
-  pallet._item = req.body.item;
+  pallet.item = req.body.item;
 
   pallet.save()
     .then(savedPallet => res.json(savedPallet))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -70,8 +73,10 @@ function update(req, res, next) {
 function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
   Pallet.list({ limit, skip })
-    .then(pallets => res.json(pallets))
-    .catch(e => next(e));
+    .then(pallets => {
+      res.json(pallets);
+    })
+    .finally(e => next(e));
 }
 
 /**
@@ -82,7 +87,7 @@ function remove(req, res, next) {
   const pallet = req.pallet;
   pallet.remove()
     .then(deletedPallet => res.json(deletedPallet))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 export default { load, get, create, update, list, remove };

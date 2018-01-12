@@ -14,7 +14,7 @@ router.route('/')
 
 router.route('/:itemId')
   /** GET /api/items/:itemId - Get item */
-  .get(itemCtrl.get)
+  .get(itemCtrl.load)
 
   /** PUT /api/items/:itemId - Update item */
   .put(validate(paramValidation.updateItem), itemCtrl.update)

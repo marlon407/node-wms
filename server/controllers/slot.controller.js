@@ -9,15 +9,16 @@ function load(req, res, next, id) {
       req.slot = slot; // eslint-disable-line no-param-reassign
       return next();
     })
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
  * Get slot
  * @returns {Slot}
  */
-function get(req, res) {
-  return res.json(req.slot);
+function get(req, res, next) {
+  res.json(req.slot);
+  next();
 }
 
 /**
@@ -34,7 +35,7 @@ function create(req, res, next) {
 
   slot.save()
     .then(savedSlot => res.json(savedSlot))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -50,7 +51,7 @@ function update(req, res, next) {
 
   slot.save()
     .then(savedSlot => res.json(savedSlot))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -63,7 +64,7 @@ function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
   Slot.list({ limit, skip })
     .then(slots => res.json(slots))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -74,7 +75,7 @@ function remove(req, res, next) {
   const slot = req.slot;
   slot.remove()
     .then(deletedSlot => res.json(deletedSlot))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 export default { load, get, create, update, list, remove };

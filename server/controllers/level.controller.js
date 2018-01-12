@@ -9,15 +9,16 @@ function load(req, res, next, id) {
       req.level = level; // eslint-disable-line no-param-reassign
       return next();
     })
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
  * Get level
  * @returns {Level}
  */
-function get(req, res) {
-  return res.json(req.level);
+function get(req, res, next) {
+  res.json(req.level);
+  next();
 }
 
 /**
@@ -34,7 +35,7 @@ function create(req, res, next) {
 
   level.save()
     .then(savedLevel => res.json(savedLevel))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -50,7 +51,7 @@ function update(req, res, next) {
 
   level.save()
     .then(savedLevel => res.json(savedLevel))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -63,7 +64,7 @@ function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
   Level.list({ limit, skip })
     .then(levels => res.json(levels))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -74,7 +75,7 @@ function remove(req, res, next) {
   const level = req.level;
   level.remove()
     .then(deletedLevel => res.json(deletedLevel))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 export default { load, get, create, update, list, remove };

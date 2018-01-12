@@ -4,20 +4,20 @@ import Item from '../models/item.model';
  * Load item and append to req.
  */
 function load(req, res, next, id) {
-  Item.get(id)
+  Item.get(req.params.itemId)
     .then((item) => {
-      req.item = item; // eslint-disable-line no-param-reassign
-      return next();
+      res.json(item)
     })
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
  * Get item
  * @returns {Item}
  */
-function get(req, res) {
-  return res.json(req.item);
+function get(req, res, next) {
+  res.json(req.item);
+  next();
 }
 
 /**
@@ -36,7 +36,7 @@ function create(req, res, next) {
 
   item.save()
     .then(savedItem => res.json(savedItem))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -54,7 +54,7 @@ function update(req, res, next) {
 
   item.save()
     .then(savedItem => res.json(savedItem))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -64,10 +64,9 @@ function update(req, res, next) {
  * @returns {Item[]}
  */
 function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
-  Item.list({ limit, skip })
+  Item.list()
     .then(items => res.json(items))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -78,7 +77,7 @@ function remove(req, res, next) {
   const item = req.item;
   item.remove()
     .then(deletedItem => res.json(deletedItem))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 export default { load, get, create, update, list, remove };

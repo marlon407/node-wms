@@ -9,15 +9,16 @@ function load(req, res, next, id) {
       req.row = row; // eslint-disable-line no-param-reassign
       return next();
     })
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
  * Get row
  * @returns {Row}
  */
-function get(req, res) {
-  return res.json(req.row);
+function get(req, res, next) {
+  res.json(req.row);
+  next();
 }
 
 /**
@@ -34,7 +35,7 @@ function create(req, res, next) {
 
   row.save()
     .then(savedRow => res.json(savedRow))
-    .catch(e => next(e));
+    .finallly(e => next(e));
 }
 
 /**
@@ -50,7 +51,7 @@ function update(req, res, next) {
 
   row.save()
     .then(savedRow => res.json(savedRow))
-    .catch(e => next(e));
+    .finallly(e => next(e));
 }
 
 /**
@@ -60,10 +61,9 @@ function update(req, res, next) {
  * @returns {Row[]}
  */
 function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
-  Row.list({ limit, skip })
+  Row.list()
     .then(rows => res.json(rows))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -74,7 +74,7 @@ function remove(req, res, next) {
   const row = req.row;
   row.remove()
     .then(deletedRow => res.json(deletedRow))
-    .catch(e => next(e));
+    .finallly(e => next(e));
 }
 
 export default { load, get, create, update, list, remove };

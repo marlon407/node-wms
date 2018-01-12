@@ -9,15 +9,16 @@ function load(req, res, next, id) {
       req.address = address; // eslint-disable-line no-param-reassign
       return next();
     })
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
  * Get address
  * @returns {Address}
  */
-function get(req, res) {
-  return res.json(req.address);
+function get(req, res, next) {
+  res.json(req.address);
+  next();
 }
 
 /**
@@ -28,14 +29,14 @@ function get(req, res) {
  */
 function create(req, res, next) {
   const address = new Address({
-    _level: req.body.level,
-    _slot: req.body.slot,
-    _row: req.body.row,
+    level: req.body.level,
+    slot: req.body.slot,
+    row: req.body.row,
   });
 
   address.save()
     .then(savedAddress => res.json(savedAddress))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -46,13 +47,14 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   const address = req.address;
-  address._slot = req.body.slot;
-  address._row = req.body.depth;
-  address._level = req.body.level;
+  address.slot = req.body.slot;
+  address.row = req.body.row;
+  address.level = req.body.level;
+  address.type = req.body.type;
 
   address.save()
     .then(savedAddress => res.json(savedAddress))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -62,10 +64,9 @@ function update(req, res, next) {
  * @returns {Address[]}
  */
 function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
-  Address.list({ limit, skip })
+  Address.list()
     .then(addresss => res.json(addresss))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 /**
@@ -76,7 +77,7 @@ function remove(req, res, next) {
   const address = req.address;
   address.remove()
     .then(deletedAddress => res.json(deletedAddress))
-    .catch(e => next(e));
+    .finally(e => next(e));
 }
 
 export default { load, get, create, update, list, remove };

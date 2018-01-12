@@ -7,9 +7,9 @@ import APIError from '../helpers/APIError';
  * Slot Schema
  */
 const SlotSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
+  _id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
   number: {
-    type: Number,
+    type: String,
     required: true
   },
   width: {
@@ -51,11 +51,8 @@ SlotSchema.statics = {
    * @param {number} limit - Limit number of slots to be returned.
    * @returns {Promise<Slot[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
+  list() {
     return this.find()
-      .sort({ createdAt: -1 })
-      .skip(+skip)
-      .limit(+limit)
       .exec();
   }
 };

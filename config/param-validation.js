@@ -23,7 +23,7 @@ export default {
   // POST /api/slots-------
   createSlot: {
     body: {
-      number: Joi.number().required(),
+      number: Joi.string().required(),
       width: Joi.number().required()
     }
   },
@@ -103,7 +103,6 @@ export default {
     body: {
       description: Joi.string().required(),
       value: Joi.number().required(),
-      address: Joi.string().required()
     }
   },
 

@@ -7,7 +7,7 @@ import APIError from '../helpers/APIError';
  * Item Schema
  */
 const ItemSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
+  _id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
   description: {
     type: String,
     required: true
@@ -50,11 +50,9 @@ ItemSchema.statics = {
    * @param {number} limit - Limit number of items to be returned.
    * @returns {Promise<Item[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
+  list() {
     return this.find()
       .sort({ createdAt: -1 })
-      .skip(+skip)
-      .limit(+limit)
       .exec();
   }
 };

@@ -7,7 +7,7 @@ import APIError from '../helpers/APIError';
  * Row Schema
  */
 const RowSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
+  _id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
   number: {
     type: Number,
     required: true
@@ -51,11 +51,8 @@ RowSchema.statics = {
    * @param {number} limit - Limit number of rows to be returned.
    * @returns {Promise<Row[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
+  list() {
     return this.find()
-      .sort({ createdAt: -1 })
-      .skip(+skip)
-      .limit(+limit)
       .exec();
   }
 };

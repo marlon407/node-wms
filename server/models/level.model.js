@@ -7,7 +7,7 @@ import APIError from '../helpers/APIError';
  * Level Schema
  */
 const LevelSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
+  _id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
   number: {
     type: Number,
     required: true
@@ -51,11 +51,8 @@ LevelSchema.statics = {
    * @param {number} limit - Limit number of levels to be returned.
    * @returns {Promise<Level[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
+  list() {
     return this.find()
-      .sort({ createdAt: -1 })
-      .skip(+skip)
-      .limit(+limit)
       .exec();
   }
 };

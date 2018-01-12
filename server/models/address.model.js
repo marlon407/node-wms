@@ -7,7 +7,7 @@ import APIError from '../helpers/APIError';
  * Address Schema
  */
 const AddressSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
+  _id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId },
   row: { type: mongoose.Schema.Types.ObjectId, ref: 'Row' },
   level: { type: mongoose.Schema.Types.ObjectId, ref: 'Level' },
   slot: { type: mongoose.Schema.Types.ObjectId, ref: 'Slot' },
@@ -30,9 +30,7 @@ AddressSchema.statics = {
    * @returns {Promise<Address, APIError>}
    */
   get(id) {
-    return this.findById(id)
-      .populate('row slot level')
-      .exec()
+    return this.findById(id).exec()
       .then((address) => {
         if (address) {
           return address;
@@ -49,12 +47,7 @@ AddressSchema.statics = {
    * @returns {Promise<Address[]>}
    */
   list({ skip = 0, limit = 50 } = {}) {
-    return this.find()
-      .populate('row slot level')
-      .sort({ createdAt: -1 })
-      .skip(+skip)
-      .limit(+limit)
-      .exec();
+    return this.find().exec();
   }
 };
 
